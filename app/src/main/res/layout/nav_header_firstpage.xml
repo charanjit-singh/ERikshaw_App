@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/profile"
-        android:paddingBottom="20dp"
+        android:paddingBottom="25dp"
         />
 
     <TextView
