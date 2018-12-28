@@ -99,8 +99,8 @@ public class firstpage extends AppCompatActivity
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        LatLng sydney = new LatLng(30.7606, 76.7654);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in PU"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
