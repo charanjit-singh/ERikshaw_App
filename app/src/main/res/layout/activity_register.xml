@@ -5,15 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".register"
-    android:background="#ffffff"
+    android:background="#f9fafd"
     android:orientation="vertical"
     >
     <ImageView
-        android:layout_marginTop="-60dp"
-        android:layout_width="500dp"
+        android:layout_marginTop="-100dp"
+        android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:layout_marginLeft="-90dp"
-        android:src="@drawable/regpage"
+        android:src="@drawable/reg6"
         android:id="@+id/splash3"
 
         />

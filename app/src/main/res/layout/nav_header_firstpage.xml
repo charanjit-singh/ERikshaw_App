@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="140dp"
-    android:background="#4E0D3A"
+    android:background="#ffffff"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingBottom="5dp"
@@ -16,14 +16,15 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/profile"
-        android:paddingBottom="25dp"
+        android:src="@drawable/person2"
+        android:paddingBottom="20dp"
         />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="My Profile"
+        android:textColor="@color/colorPrimaryDark"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 
