@@ -1,6 +1,7 @@
 package com.example.vartikasharma.splashscreen;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -21,6 +22,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -39,14 +43,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class firstpage extends AppCompatActivity
         implements
-        NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback
+        NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,View.OnClickListener
          {
     private GoogleMap mMap;
              Location mLastLocation;
              Marker mCurrLocationMarker;
              GoogleApiClient mGoogleApiClient;
              LocationRequest mLocationRequest;
-
+             private TextView tvClickMe;
+             TextView ridenowbutton;
              SupportMapFragment sMapFragment;
 
     private static final String TAG = "MapActivity";
@@ -84,9 +89,28 @@ public class firstpage extends AppCompatActivity
         if(sMapFragment.isAdded())
             sfm.beginTransaction().hide(sMapFragment).commit();
 
+        ridenowbutton = (TextView) findViewById(R.id.ridenow);
+        ridenowbutton.setOnClickListener(this);
+
+
+
 
     }
+             @Override
+             public void onClick(View v) {
+                 switch (v.getId()) {
+                     case R.id.ridenow:
 
+                         MyBottomSheetDialog myBottomSheetDialog = MyBottomSheetDialog.getInstance(this);
+                         myBottomSheetDialog.setTvTitle("Your Ride Has Been Accepted By Ramesh");
+                         myBottomSheetDialog.setTvSubTitle("Ramesh is on his way");
+                        // myBottomSheetDialog.setIvAvatar("https://avatars3.githubusercontent.com/u/6635954?v=3&u=d18aab686938ecda4b96f29e4e3b776008ced91f&s=400");
+                         myBottomSheetDialog.setCanceledOnTouchOutside(false);
+                         myBottomSheetDialog.show();
+
+                         break;
+                 }
+             }
 
 
     @Override
@@ -238,6 +262,11 @@ public class firstpage extends AppCompatActivity
                              mMap.addCircle(circleOptions);
                          }
                      };
+
+
+
+
+
 
          }
 
