@@ -17,7 +17,7 @@ import android.widget.TextView;
  * Use the {@link uietfrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class uietfrag extends Fragment {
+public class uietfrag extends Fragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -63,17 +63,8 @@ public class uietfrag extends Fragment {
         //continue_1 = (TextView) getView().findViewById(R.id.continue1);
         //continue_1.setOnClickListener(this);
         continue_1 = (TextView)getView().findViewById(R.id.continue1);
-        continue_1.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(),firstpage.class));
-
-
-            }
-        });
-
-
+        continue_1.setOnClickListener(this);
+        return;
 
     }
 
@@ -104,6 +95,16 @@ public class uietfrag extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.continue1:
+                startActivity(new Intent(getActivity(),firstpage.class));
+
+                //startActivity(new Intent(uietfrag.this,firstpage.class));
+                break;
+        }
+    }
 
     /**
      * This interface must be implemented by activities that contain this

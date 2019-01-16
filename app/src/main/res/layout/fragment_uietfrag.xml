@@ -58,6 +58,7 @@
             android:layout_gravity="center"
             android:layout_height="50dp"
             android:text="Continue"
+            android:clickable="true"
             android:id="@+id/continue1"
             android:textColor="#f9f6f6"
             android:background="@drawable/darkblue"
