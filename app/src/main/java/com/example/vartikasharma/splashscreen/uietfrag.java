@@ -17,7 +17,7 @@ import android.widget.TextView;
  * Use the {@link uietfrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class uietfrag extends Fragment implements View.OnClickListener{
+public class uietfrag extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -26,7 +26,7 @@ public class uietfrag extends Fragment implements View.OnClickListener{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    TextView continue_1;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -62,9 +62,14 @@ public class uietfrag extends Fragment implements View.OnClickListener{
         }
         //continue_1 = (TextView) getView().findViewById(R.id.continue1);
         //continue_1.setOnClickListener(this);
-        continue_1 = (TextView)getView().findViewById(R.id.continue1);
-        continue_1.setOnClickListener(this);
-        return;
+       // continue_1=(TextView)getView().findViewById(R.id.continue1);
+       // continue_1.setOnClickListener(new View.OnClickListener() {
+         //   @Override
+           // public void onClick(View v) {
+             //   startActivity(new Intent(getActivity(),MainActivity.class));
+           // }
+        //});
+
 
     }
 
@@ -95,16 +100,7 @@ public class uietfrag extends Fragment implements View.OnClickListener{
         mListener = null;
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.continue1:
-                startActivity(new Intent(getActivity(),firstpage.class));
 
-                //startActivity(new Intent(uietfrag.this,firstpage.class));
-                break;
-        }
-    }
 
     /**
      * This interface must be implemented by activities that contain this

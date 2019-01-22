@@ -28,12 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".first" />
-        <activity android:name=".register" />
-        <activity android:name=".register2" />
-        <activity android:name=".register3" />
-        <activity android:name=".confirmation" />
         <activity android:name=".firstpage" />
+
 
         <activity
             android:name=".MainActivity">

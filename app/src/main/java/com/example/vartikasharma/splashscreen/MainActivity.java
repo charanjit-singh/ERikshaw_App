@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
      */
 
     TextView continue_2;
+  //  TextView continue_1;
+
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
@@ -93,15 +95,36 @@ public class MainActivity extends AppCompatActivity {
             switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
                 case 1:
                     rootView = inflater.inflate(R.layout.fragment_uietfrag, container, false);
+                   TextView continue_1= (TextView)rootView.findViewById(R.id.continue1);
+                    continue_1.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getActivity(), firstpage.class);
+                            startActivity(intent);
+                        }
+                    });
                     break;
                 case 2:
                     rootView = inflater.inflate(R.layout.fragment_libfrag, container, false);
+                    TextView continue_2= (TextView)rootView.findViewById(R.id.continue2);
+                    continue_2.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getActivity(), firstpage.class);
+                            startActivity(intent);
+                        }
+                    });
                     break;
 
             }
 
+
+
             return rootView;
         }
+
     }
 
     /**

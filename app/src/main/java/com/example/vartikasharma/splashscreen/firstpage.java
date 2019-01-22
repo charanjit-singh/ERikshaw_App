@@ -1,6 +1,8 @@
 package com.example.vartikasharma.splashscreen;
 
 import android.Manifest;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -20,12 +22,17 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.lang.Object;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -52,6 +59,9 @@ public class firstpage extends AppCompatActivity
              LocationRequest mLocationRequest;
              private TextView tvClickMe;
              TextView ridenowbutton;
+             TextView requestride;
+             RelativeLayout retry;
+             final Context context = this;
              SupportMapFragment sMapFragment;
 
     private static final String TAG = "MapActivity";
@@ -71,18 +81,27 @@ public class firstpage extends AppCompatActivity
         sMapFragment = SupportMapFragment.newInstance();
         android.support.v4.app.FragmentManager sfm =getSupportFragmentManager();
         setContentView(R.layout.activity_firstpage);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ImageView hamMenu = (ImageView) findViewById(R.id.three);
+        hamMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout navDrawer = findViewById(R.id.drawer_layout);
+                // If navigation drawer is not open yet open it else close it.
+                if(!navDrawer.isDrawerOpen(GravityCompat.START)) navDrawer.openDrawer(Gravity.START);
+                else navDrawer.closeDrawer(Gravity.END);
+            }
+        });
 
         sMapFragment.getMapAsync(this);
         sfm.beginTransaction().add(R.id.maps,sMapFragment).commit();
@@ -102,8 +121,8 @@ public class firstpage extends AppCompatActivity
                      case R.id.ridenow:
 
                          MyBottomSheetDialog myBottomSheetDialog = MyBottomSheetDialog.getInstance(this);
-                         myBottomSheetDialog.setTvTitle("Your Ride Has Been Accepted By Ramesh");
-                         myBottomSheetDialog.setTvSubTitle("Ramesh is on his way");
+                         myBottomSheetDialog.setTvTitle("Ramesh is The Driver");
+                         myBottomSheetDialog.setTvSubTitle("He is 500m away");
                         // myBottomSheetDialog.setIvAvatar("https://avatars3.githubusercontent.com/u/6635954?v=3&u=d18aab686938ecda4b96f29e4e3b776008ced91f&s=400");
                          myBottomSheetDialog.setCanceledOnTouchOutside(false);
                          myBottomSheetDialog.show();
@@ -179,6 +198,18 @@ public class firstpage extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(30.8046, 76.9194))
+                .title("E_Driver1")
+                .snippet("200 m away from u")
+                .flat(true)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.rikshaw_icon)));
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(30.8026, 76.9145))
+                .title("E_Driver2")
+                .snippet("100 m away from u")
+                .flat(true)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.rikshaw_icon)));
 
         mMap.setOnMyLocationButtonClickListener(onMyLocationButtonClickListener);
         mMap.setOnMyLocationClickListener(onMyLocationClickListener);
@@ -256,7 +287,7 @@ public class firstpage extends AppCompatActivity
                                      location.getLongitude()));
 
                              circleOptions.radius(200);
-                             circleOptions.fillColor(Color.RED);
+                             circleOptions.fillColor(Color.BLUE);
                              circleOptions.strokeWidth(6);
 
                              mMap.addCircle(circleOptions);
