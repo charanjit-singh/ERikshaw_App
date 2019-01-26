@@ -199,7 +199,7 @@ public class firstpage extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(30.8046, 76.9194))
+                .position(new LatLng(30.7488, 76.7567))
                 .title("E_Driver1")
                 .snippet("200 m away from u")
                 .flat(true)
