@@ -16,10 +16,26 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textColor="#FFF"
-        android:textSize="30dp"
-        android:text="Hold On !"
-        android:layout_toRightOf="@+id/image"/>/>
+        android:textSize="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
+        android:text="SORRY!"
+        android:typeface="sans"
+        android:layout_toRightOf="@+id/image"/>
 
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="56dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:text="We could'nt connect you with driver please try again!"
+        android:textColor="#FFF"
+        android:typeface="sans"
+        android:textSize="15dp" />
 
     <RelativeLayout
         android:layout_width="130dp"

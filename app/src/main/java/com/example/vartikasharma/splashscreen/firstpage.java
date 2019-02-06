@@ -2,6 +2,7 @@ package com.example.vartikasharma.splashscreen;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,6 +27,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -33,20 +35,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.lang.Object;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.directions.route.RoutingListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 
 public class firstpage extends AppCompatActivity
         implements
@@ -64,6 +72,21 @@ public class firstpage extends AppCompatActivity
              final Context context = this;
              SupportMapFragment sMapFragment;
 
+             protected GoogleMap map;
+             protected LatLng start;
+             protected LatLng end;
+
+             ImageView send;
+             private static final String LOG_TAG = "MyActivity";
+
+             private ProgressDialog progressDialog;
+             private List<Polyline> polylines;
+             private static final int[] COLORS = new int[]{R.color.colorPrimaryDark,R.color.colorPrimary,R.color.colorPrimary,R.color.colorAccent,R.color.primary_dark_material_light};
+
+
+             private static final LatLngBounds BOUNDS_JAMAICA= new LatLngBounds(new LatLng(-57.965341647205726, 144.9987719580531),
+                     new LatLng(72.77492067739843, -9.998857788741589));
+
     private static final String TAG = "MapActivity";
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -79,6 +102,7 @@ public class firstpage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sMapFragment = SupportMapFragment.newInstance();
+
         android.support.v4.app.FragmentManager sfm =getSupportFragmentManager();
         setContentView(R.layout.activity_firstpage);
 
@@ -102,6 +126,8 @@ public class firstpage extends AppCompatActivity
                 else navDrawer.closeDrawer(Gravity.END);
             }
         });
+
+
 
         sMapFragment.getMapAsync(this);
         sfm.beginTransaction().add(R.id.maps,sMapFragment).commit();
@@ -199,7 +225,7 @@ public class firstpage extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(30.7488, 76.7567))
+                .position(new LatLng(30.8080, 76.9169))
                 .title("E_Driver1")
                 .snippet("200 m away from u")
                 .flat(true)
@@ -208,6 +234,12 @@ public class firstpage extends AppCompatActivity
                 .position(new LatLng(30.8026, 76.9145))
                 .title("E_Driver2")
                 .snippet("100 m away from u")
+                .flat(true)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.rikshaw_icon)));
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(30.7484, 76.7632))
+                .title("E_Driver3")
+                .snippet("300 m away from u")
                 .flat(true)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.rikshaw_icon)));
 
