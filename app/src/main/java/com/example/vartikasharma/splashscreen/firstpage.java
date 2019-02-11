@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.lang.Object;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,47 +57,46 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class firstpage extends AppCompatActivity
         implements
-        NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,View.OnClickListener
-         {
+        NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, View.OnClickListener {
     private GoogleMap mMap;
-             Location mLastLocation;
-             Marker mCurrLocationMarker;
-             GoogleApiClient mGoogleApiClient;
-             LocationRequest mLocationRequest;
-             private TextView tvClickMe;
-             TextView ridenowbutton;
-             TextView requestride;
-             RelativeLayout retry;
-             final Context context = this;
-             SupportMapFragment sMapFragment;
+    Location mLastLocation;
+    Marker mCurrLocationMarker;
+    GoogleApiClient mGoogleApiClient;
+    LocationRequest mLocationRequest;
+    private TextView tvClickMe;
+    TextView ridenowbutton;
+    TextView requestride;
+    RelativeLayout retry;
+    final Context context = this;
+    SupportMapFragment sMapFragment;
 
-             protected GoogleMap map;
-             protected LatLng start;
-             protected LatLng end;
+    protected GoogleMap map;
+    protected LatLng start;
+    protected LatLng end;
 
-             ImageView send;
-             private static final String LOG_TAG = "MyActivity";
+    ImageView send;
+    private static final String LOG_TAG = "MyActivity";
 
-             private ProgressDialog progressDialog;
-             private List<Polyline> polylines;
-             private static final int[] COLORS = new int[]{R.color.colorPrimaryDark,R.color.colorPrimary,R.color.colorPrimary,R.color.colorAccent,R.color.primary_dark_material_light};
+    private ProgressDialog progressDialog;
+    private List<Polyline> polylines;
+    private static final int[] COLORS = new int[]{R.color.colorPrimaryDark, R.color.colorPrimary, R.color.colorPrimary, R.color.colorAccent, R.color.primary_dark_material_light};
 
 
-             private static final LatLngBounds BOUNDS_JAMAICA= new LatLngBounds(new LatLng(-57.965341647205726, 144.9987719580531),
-                     new LatLng(72.77492067739843, -9.998857788741589));
+    private static final LatLngBounds BOUNDS_JAMAICA = new LatLngBounds(new LatLng(-57.965341647205726, 144.9987719580531),
+            new LatLng(72.77492067739843, -9.998857788741589));
 
     private static final String TAG = "MapActivity";
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-   // private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-             private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    // private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     //vars
     private Boolean mLocationPermissionsGranted = false;
-
 
 
     @Override
@@ -103,7 +104,7 @@ public class firstpage extends AppCompatActivity
         super.onCreate(savedInstanceState);
         sMapFragment = SupportMapFragment.newInstance();
 
-        android.support.v4.app.FragmentManager sfm =getSupportFragmentManager();
+        android.support.v4.app.FragmentManager sfm = getSupportFragmentManager();
         setContentView(R.layout.activity_firstpage);
 
 
@@ -122,40 +123,39 @@ public class firstpage extends AppCompatActivity
             public void onClick(View v) {
                 DrawerLayout navDrawer = findViewById(R.id.drawer_layout);
                 // If navigation drawer is not open yet open it else close it.
-                if(!navDrawer.isDrawerOpen(GravityCompat.START)) navDrawer.openDrawer(Gravity.START);
+                if (!navDrawer.isDrawerOpen(GravityCompat.START))
+                    navDrawer.openDrawer(Gravity.START);
                 else navDrawer.closeDrawer(Gravity.END);
             }
         });
 
 
-
         sMapFragment.getMapAsync(this);
-        sfm.beginTransaction().add(R.id.maps,sMapFragment).commit();
-        if(sMapFragment.isAdded())
+        sfm.beginTransaction().add(R.id.maps, sMapFragment).commit();
+        if (sMapFragment.isAdded())
             sfm.beginTransaction().hide(sMapFragment).commit();
 
         ridenowbutton = (TextView) findViewById(R.id.ridenow);
         ridenowbutton.setOnClickListener(this);
 
 
-
-
     }
-             @Override
-             public void onClick(View v) {
-                 switch (v.getId()) {
-                     case R.id.ridenow:
 
-                         MyBottomSheetDialog myBottomSheetDialog = MyBottomSheetDialog.getInstance(this);
-                         myBottomSheetDialog.setTvTitle("Ramesh is The Driver");
-                         myBottomSheetDialog.setTvSubTitle("He is 500m away");
-                        // myBottomSheetDialog.setIvAvatar("https://avatars3.githubusercontent.com/u/6635954?v=3&u=d18aab686938ecda4b96f29e4e3b776008ced91f&s=400");
-                         myBottomSheetDialog.setCanceledOnTouchOutside(false);
-                         myBottomSheetDialog.show();
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ridenow:
 
-                         break;
-                 }
-             }
+                MyBottomSheetDialog myBottomSheetDialog = MyBottomSheetDialog.getInstance(this);
+                myBottomSheetDialog.setTvTitle("Ramesh is The Driver");
+                myBottomSheetDialog.setTvSubTitle("He is 500m away");
+                // myBottomSheetDialog.setIvAvatar("https://avatars3.githubusercontent.com/u/6635954?v=3&u=d18aab686938ecda4b96f29e4e3b776008ced91f&s=400");
+                myBottomSheetDialog.setCanceledOnTouchOutside(false);
+                myBottomSheetDialog.show();
+
+                break;
+        }
+    }
 
 
     @Override
@@ -184,7 +184,7 @@ public class firstpage extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         //if (id == R.id.action_search) {
-          //  return true;
+        //  return true;
         //}
         switch (item.getItemId()) {
             case R.id.action_search:
@@ -242,13 +242,46 @@ public class firstpage extends AppCompatActivity
                 .snippet("300 m away from u")
                 .flat(true)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.rikshaw_icon)));
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(30.7528, 76.7582))
+                .title("E_Driver4")
+                .snippet("300 m away from u")
+                .flat(true)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.rikshaw_icon)));
 
         mMap.setOnMyLocationButtonClickListener(onMyLocationButtonClickListener);
         mMap.setOnMyLocationClickListener(onMyLocationClickListener);
         enableMyLocationIfPermitted();
-
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setMinZoomPreference(11);
+        PolylineOptions line=
+                new PolylineOptions().add(new LatLng(30.7484, 76.7632),
+                        new LatLng(location.getLatitude(),
+                                location.getLongitude()))
+                        .width(8).color(Color.BLUE);
+
+        mMap.addPolyline(line);
+        PolylineOptions line_2=
+                new PolylineOptions().add(new LatLng(30.7528, 76.7582),
+                        new LatLng(location.getLatitude(),
+                                location.getLongitude()))
+                        .width(8).color(Color.BLUE);
+
+        mMap.addPolyline(line_2);
 
 
     }
