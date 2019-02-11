@@ -275,6 +275,7 @@ public class firstpage extends AppCompatActivity
                         .width(8).color(Color.BLUE);
 
         mMap.addPolyline(line);
+
         PolylineOptions line_2=
                 new PolylineOptions().add(new LatLng(30.7528, 76.7582),
                         new LatLng(location.getLatitude(),
