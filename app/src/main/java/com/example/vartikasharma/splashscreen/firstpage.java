@@ -268,7 +268,7 @@ public class firstpage extends AppCompatActivity
         double latitude = location.getLatitude();
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setMinZoomPreference(11);
-        PolylineOptions line=
+       PolylineOptions line=
                 new PolylineOptions().add(new LatLng(30.7484, 76.7632),
                         new LatLng(location.getLatitude(),
                                 location.getLongitude()))
