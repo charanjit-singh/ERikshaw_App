@@ -21,18 +21,18 @@
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".splashActivity">
+        <activity android:name=".firstpage_activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".firstpage" />
+        <activity android:name=".mainpage_activity" />
 
 
         <activity
-            android:name=".MainActivity">
+            android:name=".login_activity">
 
         </activity>        <!--
              The API key for Google Maps-based APIs is defined as a string resource.

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".libfrag">
+    tools:context=".signup_view">
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="#2A2E43"
         android:orientation="vertical"
-        tools:context=".MainActivity">
+        tools:context=".login_activity">
 
         <EditText
             android:id="@+id/name"
