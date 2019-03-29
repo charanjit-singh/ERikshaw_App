@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">ERikshaw</string>
+    <string name="app_name">E Rickshaw</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">YouIET</string>
+    <string name="nav_header_title">E Rickshaw</string>
     <string name="nav_header_subtitle">Welcomes You!</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
