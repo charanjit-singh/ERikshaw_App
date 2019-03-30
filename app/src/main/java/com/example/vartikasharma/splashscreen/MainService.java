@@ -1,10 +1,13 @@
 package com.example.vartikasharma.splashscreen;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 
@@ -15,16 +18,25 @@ import android.widget.Toast;
 
 import com.example.vartikasharma.splashscreen.rest.ApiClient;
 import com.example.vartikasharma.splashscreen.rest.ApiInterface;
+import com.google.gson.JsonObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
-public class GPSService extends Service {
+public class MainService extends Service {
 
     private static final String TAG = "BOOMBOOMTESTGPS";
     private LocationManager mLocationManager = null;
     private static final int LOCATION_INTERVAL = 1000;
     private static final float LOCATION_DISTANCE = 10f;
+    private final IBinder mBinder = new LocalBinder();
+    Callbacks activity;
+
     ApiInterface apiInterface;
     String auth_token;
+
 
     private class LocationListener implements android.location.LocationListener {
         Location mLastLocation;
@@ -38,8 +50,19 @@ public class GPSService extends Service {
         public void onLocationChanged(Location location) {
             Log.e(TAG, "onLocationChanged: " + location);
             mLastLocation.set(location);
+            Call<JsonObject> call = apiInterface.update_driver_location(auth_token, location.getLatitude(), location.getLongitude());
 
+            call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    Log.d(TAG, "Success");
+                }
 
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    Log.d(TAG, "Error while updating location");
+                }
+            });
         }
 
         @Override
@@ -65,7 +88,27 @@ public class GPSService extends Service {
 
     @Override
     public IBinder onBind(Intent arg0) {
-        return null;
+        return mBinder;
+    }
+
+    public interface Callbacks{
+        public void showToastService(String message);
+    }
+
+    //returns the instance of the service
+    public class LocalBinder extends Binder {
+        public MainService getServiceInstance(){
+            return MainService.this;
+        }
+    }
+
+    public void registerClient(Activity activity){
+        this.activity = (Callbacks)activity;
+    }
+
+    public void showToastService(String message){
+        Toast.makeText(this, "Service: "+message, Toast.LENGTH_SHORT).show();
+        activity.showToastService("Service Called Activity: "+message);
     }
 
     @Override
@@ -80,7 +123,9 @@ public class GPSService extends Service {
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         // API INTERFACE FOR UPDATING LOCATION
         Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
-        auth_token = "";
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("SharedData", 0); // 0 - for private mode
+        auth_token = "Token " +  pref.getString("token","NA");
+        Log.d(TAG, "Token: " + auth_token);
         Log.e(TAG, "onCreate");
         initializeLocationManager();
         try {
@@ -124,4 +169,15 @@ public class GPSService extends Service {
             mLocationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         }
     }
+
+    public void startListeningRideRequests()
+    {
+        new  Thread(new Runnable() {
+            @Override
+            public void run() {
+                // get_ride_request_count and invoke Main Activity function.
+            }
+        }).start();
+    }
+
 }

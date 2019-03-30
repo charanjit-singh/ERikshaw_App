@@ -1,6 +1,5 @@
 package com.example.vartikasharma.splashscreen.rest;
 
-import com.example.vartikasharma.splashscreen.models.LoginModel;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -19,7 +18,11 @@ public interface ApiInterface {
     @POST("/api/driver/driver_login/")
     Call<JsonObject> login(@Field("username") String username, @Field("password") String password);
 
-    @POST("/api/driver/update_driver_location/")
-    Call<JsonObject> update_driver_location(@Header("Authorization") String token, @Field("lat") Float lat, @Field("lon") Float lon);
+    @FormUrlEncoded
+    @POST("/api/driver/update_location_driver/")
+    Call<JsonObject> update_driver_location(@Header("Authorization") String token, @Field("lat") double lat, @Field("lon") double lon);
+
+    @GET("/api/driver/get_ride_request_count/")
+    Call<JsonObject> get_ride_request_count(@Header("Authorization") String token);
 
 }

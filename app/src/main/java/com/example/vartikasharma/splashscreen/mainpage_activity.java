@@ -2,13 +2,16 @@ package com.example.vartikasharma.splashscreen;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -46,8 +49,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 public class mainpage_activity extends AppCompatActivity
         implements
-        NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, View.OnClickListener {
-    private static final String LOG_TAG = "MyActivity";
+        NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, View.OnClickListener, MainService.Callbacks {
+    private static final String LOG_TAG = "My Activity";
     private static final int[] COLORS = new int[]{R.color.colorPrimaryDark, R.color.colorPrimary, R.color.colorPrimary, R.color.colorAccent, R.color.primary_dark_material_light};
     private static final LatLngBounds BOUNDS_JAMAICA = new LatLngBounds(new LatLng(-57.965341647205726, 144.9987719580531),
             new LatLng(72.77492067739843, -9.998857788741589));
@@ -73,6 +76,7 @@ public class mainpage_activity extends AppCompatActivity
     private TextView tvClickMe;
     private ProgressDialog progressDialog;
     private List<Polyline> polylines;
+
     //vars
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap.OnMyLocationButtonClickListener onMyLocationButtonClickListener =
@@ -101,6 +105,26 @@ public class mainpage_activity extends AppCompatActivity
                     mMap.addCircle(circleOptions);
                 }
             };
+
+    MainService mainService;
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            Toast.makeText(mainpage_activity.this, "onServiceConnected called", Toast.LENGTH_SHORT).show();
+            // We've binded to LocalService, cast the IBinder and get LocalService instance
+            MainService.LocalBinder binder = (MainService.LocalBinder) service;
+            mainService = binder.getServiceInstance(); //Get instance of your service!
+            mainService.registerClient(mainpage_activity.this); //Activity register in the service as client for callabcks!
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            Toast.makeText(mainpage_activity.this, "onServiceDisconnected called", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,12 +162,14 @@ public class mainpage_activity extends AppCompatActivity
         if (sMapFragment.isAdded())
             sfm.beginTransaction().hide(sMapFragment).commit();
 
-        // Start Activity
+        // Start Service
         Intent serviceIntent;
-        serviceIntent = new Intent(mainpage_activity.this, GPSService.class);
+        serviceIntent = new Intent(mainpage_activity.this, MainService.class);
         Log.d("SERVICE","Starting Service");
         startService(serviceIntent);
         Log.d("SERVICE","Service Started");
+        bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE); //Binding to the service!
+
 
         ridenowbutton = (TextView) findViewById(R.id.ridenow);
         ridenowbutton.setOnClickListener(this);
@@ -151,18 +177,19 @@ public class mainpage_activity extends AppCompatActivity
 
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ridenow:
+                mainService.showToastService("Hello ISHA ");
 
-                bottomsheetdialog_view bottomsheetdialogview = bottomsheetdialog_view.getInstance(this);
-                bottomsheetdialogview.setTvTitle("Ramesh is The Driver");
-                bottomsheetdialogview.setTvSubTitle("He is 500m away");
-                // bottomsheetdialogview.setIvAvatar("https://avatars3.githubusercontent.com/u/6635954?v=3&u=d18aab686938ecda4b96f29e4e3b776008ced91f&s=400");
-                bottomsheetdialogview.setCanceledOnTouchOutside(false);
-                bottomsheetdialogview.show();
-
+//                bottomsheetdialog_view bottomsheetdialogview = bottomsheetdialog_view.getInstance(this);
+//                bottomsheetdialogview.setTvTitle("Ramesh is The Driver");
+//                bottomsheetdialogview.setTvSubTitle("He is 500m away");
+//                // bottomsheetdialogview.setIvAvatar("https://avatars3.githubusercontent.com/u/6635954?v=3&u=d18aab686938ecda4b96f29e4e3b776008ced91f&s=400");
+//                bottomsheetdialogview.setCanceledOnTouchOutside(false);
+//                bottomsheetdialogview.show();
                 break;
         }
     }
@@ -320,7 +347,7 @@ public class mainpage_activity extends AppCompatActivity
         Toast.makeText(this, "Location permission not granted, " +
                         "showing default location",
                 Toast.LENGTH_SHORT).show();
-        LatLng redmond = new LatLng(47.6739881, -122.121512);
+        LatLng redmond = new LatLng(30.756889, 76.767370);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(redmond));
     }
 
@@ -342,6 +369,10 @@ public class mainpage_activity extends AppCompatActivity
     }
 
 
+    @Override
+    public void showToastService(String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
 }
 
 /**
